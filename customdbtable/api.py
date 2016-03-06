@@ -78,6 +78,14 @@ class CustomDBTableSystem (Component):
                     name)
             return cursor.execute(sql).fetchall()[0]
 
+    def sorted_column (self, table, col):
+        dbinfo = self._dbs[table]
+        colinfo = dbinfo['columns']
+        with self.env.db_query as db:
+            cursor = db.cursor()
+            sql = "SELECT %s FROM %s ORDER BY %s" % (col, table, col)
+            return [r[0] for r in cursor.execute(sql).fetchall()]
+
     def update (self, table, kws):
         dbinfo = self._dbs[table]
         colinfo = dbinfo['columns']
