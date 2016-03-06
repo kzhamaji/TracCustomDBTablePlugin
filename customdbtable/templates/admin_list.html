@@ -1,0 +1,57 @@
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:xi="http://www.w3.org/2001/XInclude"
+      xmlns:py="http://genshi.edgewall.org/">
+  <xi:include href="admin.html" />
+  <head>
+    <title>${table_label} 管理</title>
+  </head>
+
+  <body>
+    <div class="custom-db-table">
+
+      <h2>${table_label}管理</h2>
+
+      <form class="addnew" method="POST">
+        <fieldset>
+          <legend>${table_label}の追加:</legend>
+          <div class="field" py:for="ci in columns">
+            <label>${ci['label']}:
+              <input type="text" name="${ci['name']}" />
+            </label>
+          </div>
+          <div class="buttons">
+            <input type="submit" name="add" value="追加" />
+          </div>
+        </fieldset>
+      </form>
+    </div>
+
+    <form py:if="rows" method="POST">
+      <div>
+        <table class="listing">
+          <thead>
+            <tr>
+              <th class="sel">&nbsp;</th>
+              <th py:for="colinfo in columns">${colinfo['label']}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr py:for="row in rows">
+              <td><input type="checkbox" name="sel" value="${row[0]}" /></td>
+              <td><a href="./${table_name}/${row[0]}">${row[0]}</a></td>
+              <td py:for="e in row[1:]">${e}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="buttons">
+        <input type="submit" name="remove" value="削除" />
+      </div>
+    </form>
+
+  </body>
+
+</html>
