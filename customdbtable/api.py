@@ -14,7 +14,7 @@ class CustomDBTableSystem (Component):
 
     # IPermissionRequestor methods
     def get_permission_actions(self):
-        return 'CUSTOMDBTABLE_ADMIN'
+        return ('CUSTOMDBTABLE_ADMIN',)
 
     # IEnvironmentSetupParticipant methods
     def environment_created(self):
