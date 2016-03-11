@@ -29,11 +29,14 @@ class CustomDBTableAdminPanel (Component):
 
     # IAdminPanelProvider methods
     def get_admin_panels(self, req):
-        for name, info in CustomDBTableSystem(self.env)._dbs.items():
-            yield('customdbtable', 'Custom Tables',
-                    name, info['label'])
+        if 'CUSTOMDBTABLE_ADMIN' in req.perm('customdbtable'):
+            for name, info in CustomDBTableSystem(self.env)._dbs.items():
+                yield('customdbtable', 'Custom Tables',
+                        name, info['label'])
 
     def render_admin_panel(self, req, cat, page, item):
+        req.perm('customdbtable').require('CUSTOMDBTABLE_ADMIN')
+
         if req.method == 'POST':
             dbsys = CustomDBTableSystem(self.env)
             if item:

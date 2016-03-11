@@ -2,6 +2,7 @@
 
 from trac.core import Component, implements
 from trac.env import IEnvironmentSetupParticipant
+from trac.perm import IPermissionRequestor
 
 from trac.util.compat import *
 from trac.cache import cached
@@ -9,7 +10,11 @@ from trac.cache import cached
 
 class CustomDBTableSystem (Component):
 
-    implements(IEnvironmentSetupParticipant)
+    implements(IEnvironmentSetupParticipant, IPermissionRequestor)
+
+    # IPermissionRequestor methods
+    def get_permission_actions(self):
+        return 'CUSTOMDBTABLE_ADMIN'
 
     # IEnvironmentSetupParticipant methods
     def environment_created(self):
