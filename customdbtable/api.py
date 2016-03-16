@@ -7,6 +7,16 @@ from trac.perm import IPermissionRequestor
 from trac.util.compat import *
 from trac.cache import cached
 
+__all__ = ('CustomDBTableSystem',)
+
+def get_sorted_dicts (env, table, other_env=None):
+    if other_env:
+        from trac.env import open_environment
+        env_path = os.path.join(os.path.dirname(env.path), 'ncs')
+        env = open_environment(env_path, use_cache=True)
+
+    return CustomDBTableSystem(env).sorted_dicts(table)
+
 
 class CustomDBTableSystem (Component):
 
@@ -70,6 +80,17 @@ class CustomDBTableSystem (Component):
                     table,
                     colinfo[0]['name'])
             return cursor.execute(sql).fetchall()
+
+    def sorted_dicts (self, table):
+        dbinfo = self._dbs[table]
+        colinfo = dbinfo['columns']
+        dicts = []
+        for row in self.sorted_items(table):
+            d = {}
+            for ci,val in zip(colinfo, row):
+                d[ci['name']] = val
+            dicts.append(d)
+        return dicts
 
     def item (self, table, name):
         dbinfo = self._dbs[table]
