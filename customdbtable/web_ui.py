@@ -30,9 +30,12 @@ class CustomDBTableAdminPanel (Component):
     # IAdminPanelProvider methods
     def get_admin_panels(self, req):
         if 'CUSTOMDBTABLE_ADMIN' in req.perm('customdbtable'):
+            my_project = os.path.basename(self.env.base_url)
             for name, info in CustomDBTableSystem(self.env)._dbs.items():
-                yield('customdbtable', 'Custom Tables',
-                        name, info['label'])
+                project = info['project']
+                if not project or project == my_project:
+                    yield('customdbtable', 'Custom Tables',
+                          name, info['label'])
 
     def render_admin_panel(self, req, cat, page, item):
         req.perm('customdbtable').require('CUSTOMDBTABLE_ADMIN')

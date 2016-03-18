@@ -59,6 +59,7 @@ class CustomDBTableSystem (Component):
             cols = section.getlist(name)
 
             db['label'] = section.get(name + '.label', name)
+            db['project'] = section.get(name + '.project')
             db['columns'] = columns = []
 
             for col in cols:
