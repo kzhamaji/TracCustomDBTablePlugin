@@ -38,6 +38,7 @@ setup(
         'trac.plugins': [
             'customdbtable.api = customdbtable.api',
             'customdbtable.web_ui = customdbtable.web_ui',
+            'customdbtable.macro = customdbtable.macro',
         ]
     },
 #    **extra

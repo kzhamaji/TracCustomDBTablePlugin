@@ -93,6 +93,11 @@ class CustomDBTableSystem (Component):
             dicts.append(d)
         return dicts
 
+
+    def column_names (self, table):
+        return [c['name'] for c in self._dbs[table]['columns']]
+
+
     def item (self, table, name):
         dbinfo = self._dbs[table]
         colinfo = dbinfo['columns']
